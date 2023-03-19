@@ -1,0 +1,16 @@
+{
+  "name": "real-time-whiteboard-sharing-app",
+  "version": "1.0.0",
+  "description": "Real time whiteboard sharing app",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Vishwa Waweliyadda",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21",
+    "socket.io": "^4.6.1"
+  }
+}
