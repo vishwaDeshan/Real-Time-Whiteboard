@@ -1,10 +1,12 @@
 import './App.css'
+import Forms from './Components/Forms/Forms'
+
 
 function App() {
 
   return (
-    <div className="App">
-      
+    <div className="container">
+      <Forms/>
     </div>
   )
 }
