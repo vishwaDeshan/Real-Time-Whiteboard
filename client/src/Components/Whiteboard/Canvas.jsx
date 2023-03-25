@@ -5,6 +5,12 @@ const roughGenerator = rough.generator();
 
 const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
 
+  const styles = {
+    canvasArea: {
+      cursor: `pointer`,
+    },
+};
+
   const [isDrawing, setIsdrawing] = useState(false);
 
   useEffect(() => {
@@ -144,7 +150,7 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
-      <canvas ref={canvasRef} />
+      <canvas ref={canvasRef} style={styles.canvasArea}/>
     </div>
 
   );
