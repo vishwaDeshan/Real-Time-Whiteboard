@@ -13,7 +13,7 @@ const Room = () => {
     const[elements,setElements]=useState([]);
     const styles = {
         canvasBox: {
-            height: '550px',
+            height: '640px',
             width: '1500px'
         },
     };
@@ -53,7 +53,7 @@ const Room = () => {
                 </div>
             </div>
             <div className="col-md-10 mx-auto" style={styles.canvasBox}>
-                <Canvas canvasRef={canvasRef} ctxRef={ctxRef} elements={elements} setElements={setElements}/>
+                <Canvas canvasRef={canvasRef} ctxRef={ctxRef} elements={elements} setElements={setElements} tool={tool}/>
             </div>
         </div>
     )
