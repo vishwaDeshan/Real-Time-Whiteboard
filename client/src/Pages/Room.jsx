@@ -13,7 +13,7 @@ const Room = () => {
     const[elements,setElements]=useState([]);
     const styles = {
         canvasBox: {
-            height: '640px',
+            height: '550px',
             width: '1500px'
         },
     };
