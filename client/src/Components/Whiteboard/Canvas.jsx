@@ -3,47 +3,72 @@ import rough from "roughjs";
 
 const roughGenerator = rough.generator();
 
-const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
-
+const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool, color }) => {
   const styles = {
     canvasArea: {
-      cursor: `pointer`,
+      cursor: "pointer",
     },
-};
+  };
 
-  const [isDrawing, setIsdrawing] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.height = window.innerHeight * 2;
     canvas.width = window.innerWidth * 2;
     const ctx = canvas.getContext("2d");
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
     ctxRef.current = ctx;
   }, []);
+
+  useEffect(() => {
+    ctxRef.current.strokeStyle = color;
+  }, [color]);
 
   useLayoutEffect(() => {
     const roughCanvas = rough.canvas(canvasRef.current);
     if (elements.length > 0) {
-      ctxRef.current.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+      ctxRef.current.clearRect(
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height
+      );
     }
-    elements.forEach(element => {
-      if (element.type === "rect") {
+    elements.forEach((element) => {
+      const { originalColor, type, offsetX, offsetY, width, height, path } =
+        element;
+      if (type === "rect") {
         roughCanvas.draw(
-          roughGenerator.rectangle(element.offsetX, element.offsetY, element.width, element.height)
-        )
-      }
-      else if (element.type === "pencil") {
-        roughCanvas.linearPath(element.path);
-      } else if (element.type === "line") {
+          roughGenerator.rectangle(offsetX, offsetY, width, height, {
+            stroke: originalColor,
+            strokeWidth: 4,
+            roughness: 0,
+          })
+        );
+      } else if (type === "pencil") {
+        roughCanvas.linearPath(path, {
+          stroke: originalColor,
+          strokeWidth: 4,
+          roughness: 0,
+        });
+      } else if (type === "line") {
         roughCanvas.draw(
-          roughGenerator.line(element.offsetX, element.offsetY, element.width, element.height));
+          roughGenerator.line(offsetX, offsetY, width, height, {
+            stroke: originalColor,
+            strokeWidth: 4,
+            roughness: 0,
+          })
+        );
       }
     });
   }, [elements]);
 
   const handleMouseDown = (e) => {
     const { offsetX, offsetY } = e.nativeEvent;
-    console.log(offsetX, offsetY);
 
     if (tool === "pencil") {
       setElements((prevElements) => [
@@ -53,7 +78,7 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           offsetX,
           offsetY,
           path: [[offsetX, offsetY]],
-          storke: "black",
+          originalColor: color,
         },
       ]);
     } else if (tool === "line") {
@@ -65,7 +90,7 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           offsetY,
           width: offsetX,
           height: offsetY,
-          storke: "black"
+          originalColor: color,
         },
       ]);
     } else if (tool === "rect") {
@@ -77,15 +102,13 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           offsetY,
           width: 0,
           height: 0,
-          storke: "black"
+          originalColor: color,
         },
       ]);
     }
 
-
-    setIsdrawing(true);
-  }
-
+    setIsDrawing(true);
+  };
 
   const handleMouseMove = (e) => {
     const { offsetX, offsetY } = e.nativeEvent;
@@ -97,13 +120,14 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
           prevElements.map((ele, index) => {
             if (index === elements.length - 1) {
               return {
-                ...ele, path: newPath
-              }
+                ...ele,
+                path: newPath,
+              };
             } else {
               return ele;
             }
           })
-        )
+        );
       } else if (tool === "line") {
         setElements((prevElements) =>
           prevElements.map((ele, index) => {
@@ -111,48 +135,44 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool }) => {
               return {
                 ...ele,
                 width: offsetX,
-                height: offsetY
-              }
+                height: offsetY,
+              };
             } else {
               return ele;
             }
           })
-        )
-      }
-      else if (tool === "rect") {
+        );
+      } else if (tool === "rect") {
         setElements((prevElements) =>
           prevElements.map((ele, index) => {
             if (index === elements.length - 1) {
               return {
                 ...ele,
-                width: offsetX-ele.offsetX,
-                height: offsetY-ele.offsetY
-              }
+                width: offsetX - ele.offsetX,
+                height: offsetY - ele.offsetY,
+              };
             } else {
               return ele;
             }
           })
-        )
+        );
       }
-      console.log(offsetX, offsetY)
     }
-  }
+  };
 
-  const handleMouseUp = (e) => {
-    setIsdrawing(false);
-  }
+  const handleMouseUp = () => {
+    setIsDrawing(false);
+  };
 
   return (
-
     <div
       className="h-100 w-100 border border-4 border-seconday shadow-sm p-1 mb-5 bg-white rounded-2 overflow-hidden "
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
-      <canvas ref={canvasRef} style={styles.canvasArea}/>
+      <canvas ref={canvasRef} style={styles.canvasArea} />
     </div>
-
   );
 };
 

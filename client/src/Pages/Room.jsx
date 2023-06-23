@@ -53,7 +53,7 @@ const Room = () => {
                 </div>
             </div>
             <div className="col-md-10 mx-auto" style={styles.canvasBox}>
-                <Canvas canvasRef={canvasRef} ctxRef={ctxRef} elements={elements} setElements={setElements} tool={tool}/>
+                <Canvas canvasRef={canvasRef} ctxRef={ctxRef} elements={elements} setElements={setElements} tool={tool} color={color}/>
             </div>
         </div>
     )
