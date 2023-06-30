@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import Canvas from "../Components/Whiteboard/Canvas";
+import { unmountComponentAtNode } from "react-dom";
 
 const Room = () => {
   const canvasRef = useRef(null);
@@ -9,6 +10,7 @@ const Room = () => {
   const [tool, setTool] = useState("pencil");
   const [color, setColor] = useState("black");
   const [elements, setElements] = useState([]);
+  const [history, setHistory] = useState([]);
   const styles = {
     canvasBox: {
       height: "550px",
@@ -27,6 +29,24 @@ const Room = () => {
       canvasRef.current.height
     );
     setElements([]);
+  };
+
+  const undo = () => {
+    setHistory((prevHistory) => {
+      return [...prevHistory, elements[elements.length - 1]];
+    });
+    setElements((prevElements) => {
+      return prevElements.slice(0, prevElements.length - 1);
+    });
+  };
+
+  const redo = () => {
+    setElements((prevElements) => {
+      return [...prevElements, history[history.length - 1]];
+    });
+    setHistory((prevHistory) => {
+      return prevHistory.slice(0, prevHistory.length - 1);
+    });
   };
 
   return (
@@ -84,11 +104,18 @@ const Room = () => {
           </div>
         </div>
         <div className="col-md-3 d-flex justify-content-center gap-2">
-          <button className="btn btn-primary">
-            {" "}
+          <button
+            className="btn btn-primary"
+            disabled={elements.length === 0}
+            onClick={() => undo()}
+          >
             <UndoIcon /> Undo
           </button>
-          <button className="btn btn-outline-primary">
+          <button
+            className="btn btn-outline-primary"
+            disabled={history.length < 1}
+            onClick={() => redo()}
+          >
             Redo <RedoIcon />
           </button>
         </div>
