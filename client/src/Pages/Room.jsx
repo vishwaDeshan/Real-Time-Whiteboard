@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import Canvas from "../Components/Whiteboard/Canvas";
-import { unmountComponentAtNode } from "react-dom";
 
 const Room = () => {
   const canvasRef = useRef(null);
