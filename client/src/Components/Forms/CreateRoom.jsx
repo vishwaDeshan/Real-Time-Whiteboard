@@ -19,7 +19,6 @@ function CreateRoom({ uuid, setUser, socket }) {
     };
     setUser(roomData);
     navigate(`/${roomId}`);
-    console.log(roomData);
     socket.emit("userJoined", roomData);
   };
 

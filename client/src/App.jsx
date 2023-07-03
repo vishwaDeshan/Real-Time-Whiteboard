@@ -22,6 +22,7 @@ function App() {
     socket.on("userIsJoined", (data) => {
       if (data.success) {
         alert("UserJoined");
+        setUser(data);
       } else {
         alert("UserJoined error");
       }
@@ -58,7 +59,7 @@ function App() {
             exact
             element={<Forms uuid={uuid} socket={socket} setUser={setUser} />}
           />
-          <Route path="/:roomId" exact element={<Room />} />
+          <Route path="/:roomId" exact element={<Room user={user} />} />
         </Routes>
       </Router>
     </div>
