@@ -3,7 +3,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import Canvas from "../Components/Whiteboard/Canvas";
 
-const Room = ({user}) => {
+const Room = ({user, socket}) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
   const [tool, setTool] = useState("pencil");
@@ -138,6 +138,7 @@ const Room = ({user}) => {
           tool={tool}
           color={color}
           user={user}
+          socket={socket}
         />
       </div>
     </div>

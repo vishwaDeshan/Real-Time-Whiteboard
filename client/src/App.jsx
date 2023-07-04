@@ -58,7 +58,7 @@ function App() {
             exact
             element={<Forms uuid={uuid} socket={socket} setUser={setUser} />}
           />
-          <Route path="/:roomId" exact element={<Room user={user} />} />
+          <Route path="/:roomId" exact element={<Room user={user} socket={socket}/>} />
         </Routes>
       </Router>
     </div>
