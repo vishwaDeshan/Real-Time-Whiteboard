@@ -16,15 +16,14 @@ const connectionOptions = {
 const socket = io(server, connectionOptions);
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     socket.on("userIsJoined", (data) => {
       if (data.success) {
-        alert("UserJoined");
-        setUser(data);
+        console.log("UserJoined");
       } else {
-        alert("UserJoined error");
+        console.log("UserJoined error");
       }
     });
   }, []);

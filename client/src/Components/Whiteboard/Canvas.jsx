@@ -3,12 +3,33 @@ import rough from "roughjs";
 
 const roughGenerator = rough.generator();
 
-const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool, color }) => {
+const Canvas = ({
+  canvasRef,
+  ctxRef,
+  elements,
+  setElements,
+  tool,
+  color,
+  user,
+}) => {
   const styles = {
     canvasArea: {
       cursor: "pointer",
     },
   };
+
+  if (user?.view) {
+    return (
+      <div className="h-100 w-100 border border-4 border-seconday shadow-sm p-1 mb-5 bg-white rounded-2 overflow-hidden mt-5">
+        <img
+          src=""
+          alt="Real time sharing whiteboard image"
+          srcset=""
+          className="w-100 h-100"
+        />
+      </div>
+    );
+  }
 
   const [isDrawing, setIsDrawing] = useState(false);
 
@@ -29,42 +50,43 @@ const Canvas = ({ canvasRef, ctxRef, elements, setElements, tool, color }) => {
   }, [color]);
 
   useLayoutEffect(() => {
-    const roughCanvas = rough.canvas(canvasRef.current);
-    if (elements.length > 0) {
-      ctxRef.current.clearRect(
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-    }
-    elements.forEach((element) => {
-      const { originalColor, type, offsetX, offsetY, width, height, path } =
-        element;
-      if (type === "rect") {
-        roughCanvas.draw(
-          roughGenerator.rectangle(offsetX, offsetY, width, height, {
-            stroke: originalColor,
-            strokeWidth: 4,
-            roughness: 0,
-          })
-        );
-      } else if (type === "pencil") {
-        roughCanvas.linearPath(path, {
-          stroke: originalColor,
-          strokeWidth: 4,
-          roughness: 0,
-        });
-      } else if (type === "line") {
-        roughCanvas.draw(
-          roughGenerator.line(offsetX, offsetY, width, height, {
-            stroke: originalColor,
-            strokeWidth: 4,
-            roughness: 0,
-          })
+      const roughCanvas = rough.canvas(canvasRef.current);
+      if (elements.length > 0) {
+        ctxRef.current.clearRect(
+          0,
+          0,
+          canvasRef.current.width,
+          canvasRef.current.height
         );
       }
-    });
+      elements.forEach((element) => {
+        const { originalColor, type, offsetX, offsetY, width, height, path } =
+          element;
+        if (type === "rect") {
+          roughCanvas.draw(
+            roughGenerator.rectangle(offsetX, offsetY, width, height, {
+              stroke: originalColor,
+              strokeWidth: 4,
+              roughness: 0,
+            })
+          );
+        } else if (type === "pencil") {
+          roughCanvas.linearPath(path, {
+            stroke: originalColor,
+            strokeWidth: 4,
+            roughness: 0,
+          });
+        } else if (type === "line") {
+          roughCanvas.draw(
+            roughGenerator.line(offsetX, offsetY, width, height, {
+              stroke: originalColor,
+              strokeWidth: 4,
+              roughness: 0,
+            })
+          );
+        }
+      });
+    
   }, [elements]);
 
   const handleMouseDown = (e) => {

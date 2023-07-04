@@ -15,7 +15,7 @@ function CreateRoom({ uuid, setUser, socket }) {
       roomId,
       userId: uuid(),
       host: true,
-      presenter: true,
+      presenter: true
     };
     setUser(roomData);
     navigate(`/${roomId}`);

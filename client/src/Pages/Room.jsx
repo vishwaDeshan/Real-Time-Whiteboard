@@ -137,6 +137,7 @@ const Room = ({user}) => {
           setElements={setElements}
           tool={tool}
           color={color}
+          user={user}
         />
       </div>
     </div>
