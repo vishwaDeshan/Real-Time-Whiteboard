@@ -23,6 +23,7 @@ function App() {
     socket.on("userIsJoined", (data) => {
       if (data.success) {
         console.log("UserJoined");
+        setUsers(data.users);
       } else {
         console.log("UserJoined error");
       }

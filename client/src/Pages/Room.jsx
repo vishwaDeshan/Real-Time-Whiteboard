@@ -10,11 +10,13 @@ const Room = ({user, socket, users}) => {
   const [color, setColor] = useState("black");
   const [elements, setElements] = useState([]);
   const [history, setHistory] = useState([]);
+  const [openUserTab, setOpenUserTab] = useState(false);
+
   const styles = {
     canvasBox: {
       height: "550px",
       width: "1500px",
-    },
+    }
   };
 
   const handleClearCanvas = () => {
@@ -50,7 +52,9 @@ const Room = ({user, socket, users}) => {
 
   return (
     <div className="row">
-      <h4 className="text-primary mt-3">Users Online: {users.length}</h4>
+      <div className="header" style={{display:"flex", marginLeft:"0px"}}>
+      <button type="button" className="btn btn-secondary" style={{ marginTop:"15px",marginLeft:"5px", color:"#fff"}}>Users Online: {users.length}</button>
+      </div>
       {
         user?.presenter &&(
           <div className="col-md-10 mx-auto gap-3 px-5 mb-5 d-flex align-items-center justify-content-center">
