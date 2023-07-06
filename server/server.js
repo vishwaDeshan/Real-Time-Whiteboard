@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
         roomIdGlobal = roomId;
         socket.join(roomId);
         const users=addUser(data);
-        socket.broadcast.to(roomId).emit("userIsJoined", { success: true });
+        socket.broadcast.to(roomId).emit("userIsJoined", { success: true, users});
         socket.broadcast.to(roomId).emit("allUsers", users)
         if (imageURLGlobal) {
             socket.emit("whiteboardDataResponse", { imageURL: imageURLGlobal });
