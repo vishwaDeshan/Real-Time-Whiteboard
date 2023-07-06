@@ -3,7 +3,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import Canvas from "../Components/Whiteboard/Canvas";
 
-const Room = ({user, socket}) => {
+const Room = ({user, socket, users}) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
   const [tool, setTool] = useState("pencil");
@@ -50,7 +50,7 @@ const Room = ({user, socket}) => {
 
   return (
     <div className="row">
-      <h4 className="text-primary mt-3">Users Online: 0</h4>
+      <h4 className="text-primary mt-3">Users Online: {users.length}</h4>
       {
         user?.presenter &&(
           <div className="col-md-10 mx-auto gap-3 px-5 mb-5 d-flex align-items-center justify-content-center">

@@ -2,7 +2,7 @@ const { Socket } = require("dgram");
 const express = require("express");
 const req = require("express/lib/request");
 const app = express();
-
+const {addUser}=require("./utils/users")
 const server = require("http").createServer(app);
 const { Server } = require("socket.io");
 
@@ -20,7 +20,9 @@ io.on("connection", (socket) => {
         const { name, userId, roomId, host, presenter } = data;
         roomIdGlobal = roomId;
         socket.join(roomId);
-        socket.emit("userIsJoined", { success: true });
+        const users=addUser(data);
+        socket.broadcast.to(roomId).emit("userIsJoined", { success: true });
+        socket.broadcast.to(roomId).emit("allUsers", users)
         if (imageURLGlobal) {
             socket.emit("whiteboardDataResponse", { imageURL: imageURLGlobal });
         }

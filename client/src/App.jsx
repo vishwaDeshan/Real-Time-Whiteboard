@@ -17,6 +17,7 @@ const socket = io(server, connectionOptions);
 
 function App() {
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     socket.on("userIsJoined", (data) => {
@@ -26,8 +27,11 @@ function App() {
         console.log("UserJoined error");
       }
     });
+
+    socket.on("allUsers", (data) => {
+      setUsers(data);
+    });
   }, []);
-  
 
   const uuid = () => {
     var S4 = () => {
@@ -58,7 +62,11 @@ function App() {
             exact
             element={<Forms uuid={uuid} socket={socket} setUser={setUser} />}
           />
-          <Route path="/:roomId" exact element={<Room user={user} socket={socket}/>} />
+          <Route
+            path="/:roomId"
+            exact
+            element={<Room user={user} socket={socket} users={users} />}
+          />
         </Routes>
       </Router>
     </div>
