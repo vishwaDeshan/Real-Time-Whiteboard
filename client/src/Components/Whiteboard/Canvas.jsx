@@ -29,7 +29,10 @@ const Canvas = ({
   if (!user?.presenter) {
     return (
       <div className="h-100 w-100 border border-4 border-seconday shadow-sm p-1 mb-5 bg-white rounded-2 overflow-hidden mt-5">
-        {image && <img src={image} alt="" srcSet="" className="w-100 h-100" />}
+        {image && <img src={image} alt="" srcSet="" style={{
+          height:window.innerHeight*2,
+          width:window.innerWidth*2
+        }} />}
       </div>
     );
   }
