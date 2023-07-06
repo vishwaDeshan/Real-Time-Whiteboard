@@ -2,21 +2,30 @@ import React, { useState, useRef } from "react";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import Canvas from "../Components/Whiteboard/Canvas";
+import { Button, Modal } from "react-bootstrap";
 
-const Room = ({user, socket, users}) => {
+const Room = ({ user, socket, users }) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
   const [tool, setTool] = useState("pencil");
   const [color, setColor] = useState("black");
   const [elements, setElements] = useState([]);
   const [history, setHistory] = useState([]);
-  const [openUserTab, setOpenUserTab] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const styles = {
     canvasBox: {
       height: "550px",
       width: "1500px",
-    }
+    },
   };
 
   const handleClearCanvas = () => {
@@ -52,12 +61,31 @@ const Room = ({user, socket, users}) => {
 
   return (
     <div className="row">
-      <div className="header" style={{display:"flex", marginLeft:"0px"}}>
-      <button type="button" className="btn btn-secondary" style={{ marginTop:"15px",marginLeft:"5px", color:"#fff"}}>Users Online: {users.length}</button>
+      <div className="header" style={{ display: "flex", marginLeft: "0px" }}>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          style={{ marginTop: "15px", marginLeft: "5px", color: "#fff" }}
+          onClick={handleButtonClick}
+        >
+          Users Online: {users.length}
+        </button>
       </div>
-      {
-        user?.presenter &&(
-          <div className="col-md-10 mx-auto gap-3 px-5 mb-5 d-flex align-items-center justify-content-center">
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title> Users Online: {users.length}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {users.map((usr, index) => (
+            <p key={index * 999}>
+              {usr.name}
+              {user && user.id === usr.userId && "(You)"}
+            </p>
+          ))}
+        </Modal.Body>
+      </Modal>
+      {user?.presenter && (
+        <div className="col-md-10 mx-auto gap-3 px-5 mb-5 d-flex align-items-center justify-content-center">
           <div className="d-flex col-md-4 justify-content-center gap-5">
             <div className="d-flex gap-1">
               <input
@@ -130,9 +158,8 @@ const Room = ({user, socket, users}) => {
             </button>
           </div>
         </div>
-        )
-      }
-    
+      )}
+
       <div className="col-md-10 mx-auto" style={styles.canvasBox}>
         <Canvas
           canvasRef={canvasRef}
