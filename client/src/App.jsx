@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 import Forms from "./Components/Forms/Forms";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import io from "socket.io-client";
@@ -17,13 +16,13 @@ const socket = io(server, connectionOptions);
 
 function App() {
   const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([1]);
 
   useEffect(() => {
     socket.on("userIsJoined", (data) => {
       if (data.success) {
         console.log("UserJoined");
-        setUsers(data.users);
+        setUsers(users);
       } else {
         console.log("UserJoined error");
       }

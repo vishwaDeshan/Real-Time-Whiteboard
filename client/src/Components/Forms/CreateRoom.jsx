@@ -5,8 +5,17 @@ function CreateRoom({ uuid, setUser, socket }) {
   const [roomId, setRoomId] = useState(uuid());
   const [name, setName] = useState("");
 
-  const navigate=useNavigate();
-
+  const navigate = useNavigate();
+  const handleCopyToClipboard = () => {
+    navigator.clipboard
+      .writeText(roomId)
+      .then(() => {
+        alert("Room code copied to clipboard!");
+      })
+      .catch((error) => {
+        console.error("Failed to copy room code to clipboard:", error);
+      });
+  };
   const handleCreateRoom = (e) => {
     e.preventDefault();
 
@@ -15,7 +24,7 @@ function CreateRoom({ uuid, setUser, socket }) {
       roomId,
       userId: uuid(),
       host: true,
-      presenter: true
+      presenter: true,
     };
     setUser(roomData);
     navigate(`/${roomId}`);
@@ -57,7 +66,11 @@ function CreateRoom({ uuid, setUser, socket }) {
             >
               Generate
             </button>
-            <button className="btn btn-outline-danger btn-sm" type="button">
+            <button
+              className="btn btn-outline-danger btn-sm"
+              type="button"
+              onClick={handleCopyToClipboard}
+            >
               Copy
             </button>
           </div>

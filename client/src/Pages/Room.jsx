@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import Canvas from "../Components/Whiteboard/Canvas";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const Room = ({ user, socket, users }) => {
   const canvasRef = useRef(null);
