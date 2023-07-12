@@ -5,6 +5,7 @@ import Canvas from "../Components/Whiteboard/Canvas";
 import { Modal } from "react-bootstrap";
 
 const Room = ({ user, socket, users }) => {
+
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
   const [tool, setTool] = useState("pencil");
@@ -14,10 +15,12 @@ const Room = ({ user, socket, users }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleButtonClick = () => {
+
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
+
     setShowModal(false);
   };
 
@@ -29,6 +32,7 @@ const Room = ({ user, socket, users }) => {
   };
 
   const handleClearCanvas = () => {
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.fillRect = "white";
@@ -42,6 +46,7 @@ const Room = ({ user, socket, users }) => {
   };
 
   const undo = () => {
+
     setHistory((prevHistory) => {
       return [...prevHistory, elements[elements.length - 1]];
     });
@@ -51,6 +56,7 @@ const Room = ({ user, socket, users }) => {
   };
 
   const redo = () => {
+    
     setElements((prevElements) => {
       return [...prevElements, history[history.length - 1]];
     });

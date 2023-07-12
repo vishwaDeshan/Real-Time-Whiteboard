@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function JoinRoom({ uuid,socket, setUser }) {
+  
   const [roomId, setRoomId] = useState("");
   const [name, setName] = useState("");
   const navigate=useNavigate();

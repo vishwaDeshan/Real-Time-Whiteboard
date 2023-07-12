@@ -4,6 +4,7 @@ import rough from "roughjs";
 const roughGenerator = rough.generator();
 
 const Canvas = ({
+  
   canvasRef,
   ctxRef,
   elements,

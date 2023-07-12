@@ -20,6 +20,7 @@ function App() {
   const [users, setUsers] = useState([1]);
 
   useEffect(() => {
+
     socket.on("userIsJoined", (data) => {
       if (data.success) {
         console.log("UserJoined");
@@ -30,14 +31,17 @@ function App() {
     });
 
     socket.on("allUsers", (data) => {
+
       setUsers(data);
     });
 
     socket.on("userIsJoinedMessageBroadcasted", (data) => {
+
       toast.info(`${data.name} joined the room`);
     });
 
     return () => {
+
       socket.off("userIsJoined");
       socket.off("allUsers");
       socket.off("userIsJoinedMessageBroadcasted");
@@ -45,6 +49,7 @@ function App() {
   }, []);
 
   const uuid = () => {
+    
     var S4 = () => {
       return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     };

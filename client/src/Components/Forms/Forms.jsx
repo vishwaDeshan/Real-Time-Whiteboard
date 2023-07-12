@@ -2,6 +2,7 @@ import CreateRoom from "./CreateRoom";
 import JoinRoom from "./JoinRoom";
 
 const Forms=({uuid, socket, setUser})=>{
+  
     const styles = {
         formBox: {
           height: '400px',

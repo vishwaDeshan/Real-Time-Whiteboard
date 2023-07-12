@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function CreateRoom({ uuid, setUser, socket }) {
+
   const [roomId, setRoomId] = useState(uuid());
   const [name, setName] = useState("");
 
@@ -18,6 +19,7 @@ function CreateRoom({ uuid, setUser, socket }) {
       });
   };
   const handleCreateRoom = (e) => {
+
     e.preventDefault();
 
     const roomData = {
@@ -33,6 +35,7 @@ function CreateRoom({ uuid, setUser, socket }) {
   };
 
   const styles = {
+    
     name: {
       width: "100%",
     },
