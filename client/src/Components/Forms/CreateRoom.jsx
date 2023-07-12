@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function CreateRoom({ uuid, setUser, socket }) {
   const [roomId, setRoomId] = useState(uuid());
@@ -10,10 +11,10 @@ function CreateRoom({ uuid, setUser, socket }) {
     navigator.clipboard
       .writeText(roomId)
       .then(() => {
-        alert("Room code copied to clipboard!");
+        toast.success("Room code copied to clipboard!");
       })
       .catch((error) => {
-        console.error("Failed to copy room code to clipboard:", error);
+        toast.error("Failed to copy room code to clipboard:", error);
       });
   };
   const handleCreateRoom = (e) => {

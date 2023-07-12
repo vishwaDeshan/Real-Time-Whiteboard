@@ -3,6 +3,7 @@ import Forms from "./Components/Forms/Forms";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import io from "socket.io-client";
 import Room from "./Pages/Room";
+import { ToastContainer, toast } from "react-toastify";
 
 const server = "http://localhost:5000";
 const connectionOptions = {
@@ -31,6 +32,16 @@ function App() {
     socket.on("allUsers", (data) => {
       setUsers(data);
     });
+
+    socket.on("userIsJoinedMessageBroadcasted", (data) => {
+      toast.info(`${data.name} joined the room`);
+    });
+
+    return () => {
+      socket.off("userIsJoined");
+      socket.off("allUsers");
+      socket.off("userIsJoinedMessageBroadcasted");
+    };
   }, []);
 
   const uuid = () => {
@@ -55,6 +66,7 @@ function App() {
 
   return (
     <div className="container">
+      <ToastContainer />
       <Router>
         <Routes>
           <Route
